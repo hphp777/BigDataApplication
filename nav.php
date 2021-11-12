@@ -16,6 +16,9 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Seasons</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Analysis.php">Analysis</a>
+      </li>
     </ul>
   </div>
 </nav>
