@@ -14,10 +14,22 @@
         <a class="nav-link" href="Medals.php">Medals</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="#">Region</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">Countries</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="#">Cities</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">Seasons</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Result</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="Analysis.php">Analysis</a>
