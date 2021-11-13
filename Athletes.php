@@ -34,8 +34,26 @@
           echo "<th scope=\"col\">age</th>";
           echo "<th scope=\"col\">height</th>";
           echo "<th scope=\"col\">weight</th>";
+          echo "<th scope=\"col\">delete</th>";
+          echo "<th scope=\"col\">update</th>";
           echo "</thead>";
+          if (isset($_POST[ 'delete_id' ])){
+               $delete_id = $_POST[ 'delete_id' ];
+               if ( isset( $delete_id ) ) {
+                 $delete = "DELETE FROM athletes WHERE id = $delete_id;";
+                 mysqli_query( $conn, $delete );
+                 echo '<p style="color: red;">Athlete ' . $delete_id . ' is deleted.</p>';
+               }
+          }
+          
           while($row = mysqli_fetch_assoc($result)){
+               $jb_delete = '
+                <form action="Athletes.php" method="POST">
+                <input type="hidden" name="delete_id" value="' . $row[ 'id' ] . '">
+                <input type="submit" value="Delete">
+                </form>
+                ';
+                $update = "<a href=updateAthlete.php?id=".$row['id']." class = \"btn btn-primary\">Update</a>";
                echo "<tr border = \"1\">" . 
                "<td>" . $row['id'] . "</td>" . 
                "<td>" . $row['name'] . "</td>". 
@@ -43,6 +61,8 @@
                "<td>" . $row['age'] . "</td>" . 
                "<td>" . $row['height'] . "</td>" .
                "<td>" . $row['weight'] . "</td>".
+               "<td>" . $jb_delete . "</td>".
+               "<td>" . $update . "</td>".
                "</tr>";
           }
           echo "</table>";
