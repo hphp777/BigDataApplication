@@ -23,16 +23,25 @@
         <a class="nav-link" href="Cities.php">Cities</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Seasons</a>
+        <a class="nav-link" href="Seasons.php">Seasons</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Register</a>
+        <a class="nav-link" href="Sports.php">Sports</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Result</a>
+        <a class="nav-link" href="Games.php">Games</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Events.php">Events</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="Analysis.php">Analysis</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="rankA.php">Rank(Athletes)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="rankNOC.php">Rank(NOC)</a>
       </li>
       <?php
         if(isset($_SESSION['userId'])){

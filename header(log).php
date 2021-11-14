@@ -27,13 +27,11 @@
                <input type = "password" name="pwd" placeholder="Password..">
                </div>
                <div class="form-group p-2">
-               <button type="submit" name = "login-submit">Login</button>
+               <button type="submit" name = "login-submit" class = "btn btn-primary">Login</button>
                </div>    
           </form>
-          <a href="signup.php">Signup</a>
-          <form class="" action = "logout.inc.php" method = "post">
-               <button type="submit" name = "logout-submit">Logout</button>
-          </form>
+          <a href="signup.php" class = "ml-3">Signup</a>
+
           
           </div>
      </header>
