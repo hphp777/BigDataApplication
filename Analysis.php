@@ -16,6 +16,7 @@
 
 <?php
 
+     # Done by Haengbok Chung
      $sql = "SELECT AVG(age) AS age_avg FROM athletes GROUP BY sex HAVING Count(*) > 1;";
      $result = mysqli_query($conn, $sql);
      $rowF = mysqli_fetch_assoc($result);

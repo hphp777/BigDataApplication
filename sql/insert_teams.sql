@@ -1,5 +1,8 @@
 
 <?php
+
+# Done by Haengbok Chung
+
 /* 
 1. original table 에서 team명을 unique하게 select
 2. id자동 생성

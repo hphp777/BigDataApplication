@@ -1,3 +1,4 @@
+<!-- Done by Hangbok Chung -->
 <?php
      include_once 'dbh.inc.php';
 ?>
@@ -14,7 +15,6 @@
      include_once 'nav.php';
 ?>
 
-<!-- 데이터베이스에 가서 데이터를 찾아서 보여주기 -->
 <?php
      $sql = "SELECT * FROM athletes;";
      $result = mysqli_query($conn, $sql);

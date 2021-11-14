@@ -1,3 +1,4 @@
+<!-- Done by Jungwon Eom -->
 <?php
 
 #Insert datas into the Cities table

@@ -1,6 +1,6 @@
-<?php 
+-- Done by Jungwon Eom 
+--Insert datas into the Region table
 
-#Insert datas into the Region table
 INSERT INTO Region VALUES (	 'AFG'	,	 'Afghanistan'	,	NULL	); 
 INSERT INTO Region VALUES (	 'AHO'	,	 'Curacao'	,	 'Netherlands Antilles'	); 
 INSERT INTO Region VALUES (	 'ALB'	,	 'Albania'	,	NULL	); 
@@ -231,5 +231,3 @@ INSERT INTO Region VALUES (	 'YMD'	,	 'Yemen'	,	 'South Yemen'	);
 INSERT INTO Region VALUES (	 'YUG'	,	 'Serbia'	,	 'Yugoslavia'	); 
 INSERT INTO Region VALUES (	 'ZAM'	,	 'Zambia'	,	NULL	); 
 INSERT INTO Region VALUES (	 'ZIM'	,	 'Zimbabwe'	,	NULL	); 
-
-?>

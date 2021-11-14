@@ -12,6 +12,7 @@ if ($conn->connect_error) {
 } 
  
 // create table0
+# Done by Haengbok Chung
 $sql = "CREATE TABLE Athletes (
 id INTEGER(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
 name VARCHAR(30) NOT NULL,
@@ -28,6 +29,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // create table1
+# Done by Haengbok Chung
 $sql = "CREATE TABLE Teams (
     id INTEGER(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(30) NOT NULL,
@@ -41,6 +43,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // create table2
+# Done by Haengbok Chung
 $sql = "CREATE TABLE Medals (
     id INTEGER(6) PRIMARY KEY NOT NULL,
     name VARCHAR(30) NOT NULL,
@@ -96,6 +99,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 #Create Region table
+#Done by Jungwon Eom
 $sql = "CREATE TABLE Region(
 	NOC CHAR(3) NOT NULL,
 	Region VARCHAR(60) NOT NULL,
@@ -111,6 +115,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 #Create Countries table
+#Done by Jungwon Eom
 $sql = "CREATE TABLE Countries(
 	#ID INT NOT NULL,
 	Name VARCHAR(60) NOT NULL,
@@ -125,6 +130,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 #Create Cities table
+#Done by Jungwon Eom
 $sql = "CREATE TABLE Cities(
 	Name VARCHAR(60) NOT NULL,
 	Countries_ID CHAR(3) NOT NULL,
