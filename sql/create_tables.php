@@ -56,6 +56,15 @@ if ($conn->query($sql) === TRUE) {
     echo "Error creating table: " . $conn->error;
 }
 
+// create table4
+# Done by Haengbok Chung
+$sql = "CREATE TABLE users (
+    idUsers INTEGER(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    uidUsers TINYTEXT NOT NULL,
+    emailUsers TINYTEXT NOT NULL,
+    pwdUsers LONGTEXT NOT NULL,
+    )";
+
 // creating Tables
 // create table Registration
 $sql = "CREATE TABLE Registration (
