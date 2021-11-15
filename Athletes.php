@@ -34,6 +34,7 @@
           echo "<th scope=\"col\">age</th>";
           echo "<th scope=\"col\">height</th>";
           echo "<th scope=\"col\">weight</th>";
+          echo "<th scope=\"col\">team</th>";
           echo "<th scope=\"col\">delete</th>";
           echo "<th scope=\"col\">update</th>";
           echo "</thead>";
@@ -61,6 +62,7 @@
                "<td>" . $row['age'] . "</td>" . 
                "<td>" . $row['height'] . "</td>" .
                "<td>" . $row['weight'] . "</td>".
+               "<td>" . $row['team'] . "</td>".
                "<td>" . $jb_delete . "</td>".
                "<td>" . $update . "</td>".
                "</tr>";

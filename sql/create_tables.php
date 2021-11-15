@@ -19,7 +19,8 @@ name VARCHAR(30) NOT NULL,
 sex VARCHAR(30) NOT NULL,
 age INTEGER(3) NOT NULL,
 height INTEGER(3) NOT NULL,
-weight INTEGER(3) NOT NULL
+weight INTEGER(3) NOT NULL,
+team VARCHAR(30) NOT NULL,
 )";
  
 if ($conn->query($sql) === TRUE) {
