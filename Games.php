@@ -17,7 +17,7 @@
 
 <!-- 데이터베이스에 가서 데이터를 찾아서 보여주기 -->
 <?php
-     $sql = "SELECT * FROM games;";
+     $sql = "SELECT games.*, season.name AS season_name FROM `games` INNER JOIN `season` ON `season`.id = `games`.Season_id;";
      $result = mysqli_query($conn, $sql);
      $resultCheck = mysqli_num_rows($result);
 
