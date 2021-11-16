@@ -13,7 +13,7 @@
      include_once 'nav.php';
 ?>
 
-<form action="addAthletes.inc.php" method= "GET" >
+<form action="addAthlete.inc.php" method= "GET" >
 <div class="form-group p-2">
 <label for="name">Name</label>
 <input type = "text" id = "name" name = "name" placeholder = "name">
@@ -38,8 +38,13 @@
 </div>
 <br>
 <div class="form-group p-2">
-<label for="Weight">Weight</label>
-<input type = "text" name = "Weight" id = "Weight" placeholder = "Weight">
+<label for="weight">Weight</label>
+<input type = "text" name = "weight" id = "Weight" placeholder = "Weight">
+</div>
+<br>
+<div class="form-group p-2">
+<label for="team">Team</label>
+<input type = "text" name = "team" id = "team" placeholder = "team">
 </div>
 <br>
 <div class="form-group p-2">

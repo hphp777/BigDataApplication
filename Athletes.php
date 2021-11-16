@@ -22,7 +22,11 @@
 
      if($resultCheck > 0){
           echo "<div class \"\">";
-          echo " <a href=\"register.php\" class=\"btn btn-primary\">Register</a>";
+          echo " <a href=\"register.php\" class=\"btn btn-primary\">Register One Athlete</a>";
+          echo "</div>";
+
+          echo "<div class \"\">";
+          echo " <a href=\"registerMultiple.php\" class=\"btn btn-primary\">Register Multiple Athletes</a>";
           echo "</div>";
           
           echo "<table class = \"table table-bordered\" border = \"1\" align = \"center\">";

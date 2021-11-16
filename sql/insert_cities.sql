@@ -1,7 +1,5 @@
-<!-- Done by Jungwon Eom -->
-<?php
+-- Done by Jungwon Eom
 
-#Insert datas into the Cities table
 INSERT INTO Cities VALUES ('Barcelona'	 ,'ESP');
 INSERT INTO Cities VALUES ('London'	 ,'GBR');
 INSERT INTO Cities VALUES ('Antwerpen'	 ,'BEL');
@@ -44,5 +42,3 @@ INSERT INTO Cities VALUES ('Chamonix'	 ,'FRA');
 INSERT INTO Cities VALUES ('St. Louis'	 ,'USA');
 INSERT INTO Cities VALUES ('Sankt Moritz'	 ,'SWZ');
 INSERT INTO Cities VALUES ('Garmisch-Partenkirchen'	 ,'GDR');
-
-?>
