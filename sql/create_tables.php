@@ -34,7 +34,7 @@ if ($conn->query($sql) === TRUE) {
 $sql = "CREATE TABLE Teams (
     id INTEGER(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(30) NOT NULL,
-    region_id INTEGER(10) NOT NULL, ##### 
+    FOREIGN KEY (region_sid) REFERENCES region (id) ON UPDATE CASCADE ON DELETE CASCADE
     )";
 
 if ($conn->query($sql) === TRUE) {

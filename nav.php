@@ -36,7 +36,10 @@
         <a class="nav-link" href="Events.php">Events</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="Analysis.php">Analysis</a>
+        <a class="nav-link" href="Analysis.php">Analysis1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Medals_with advanced function.php">Analysis2</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="rankA.php">Rank(Athletes)</a>
