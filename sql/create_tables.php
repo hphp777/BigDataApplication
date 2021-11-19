@@ -29,20 +29,6 @@ if ($conn->query($sql) === TRUE) {
     echo "Error creating table: " . $conn->error;
 }
 
-// create table1
-# Done by Haengbok Chung
-$sql = "CREATE TABLE Teams (
-    id INTEGER(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name VARCHAR(30) NOT NULL,
-    FOREIGN KEY (region_sid) REFERENCES region (id) ON UPDATE CASCADE ON DELETE CASCADE
-    )";
-
-if ($conn->query($sql) === TRUE) {
-    echo "Table1 created successfully";
-} else {
-    echo "Error creating table: " . $conn->error;
-}
-
 // create table2
 # Done by Haengbok Chung
 $sql = "CREATE TABLE Medals (
@@ -116,21 +102,6 @@ $sql = "CREATE TABLE Region(
 	Notes VARCHAR(30),
 	PRIMARY KEY(NOC)
 	#(add later)FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE NO ACTION 
-);"
-
-if ($conn->query($sql) === TRUE) {
-    echo "Table Registration created successfully";
-} else {
-    echo "Error creating table Registration: " . $conn->error;
-}
-
-#Create Countries table
-#Done by Jungwon Eom
-$sql = "CREATE TABLE Countries(
-	#ID INT NOT NULL,
-	Name VARCHAR(60) NOT NULL,
-	SortName CHAR(3) NOT NULL,
-	PRIMARY KEY(SortName)
 );"
 
 if ($conn->query($sql) === TRUE) {
