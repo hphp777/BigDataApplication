@@ -1,21 +1,11 @@
 <!-- Done by Jeongwon Eom -->
-<?php
-     include_once 'dbh.inc.php';
-?>
+<?php include_once 'dbh.inc.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <title>Prism</title>
-     <link rel="stylesheet" href="/css/bootstrap.css">
-</head>
-<body>
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+<?php include('components/container.inc.php'); ?>
 
-<?php
-     include_once 'nav.php';
-?>
 
-<!-- 데이터베이스에 가서 데이터를 찾아서 보여주기 -->
 <?php
      $sql = "select Year, NOC, Team, count(*) as Medals from original group by Year, NOC;";
      $result = mysqli_query($conn, $sql);

@@ -1,19 +1,9 @@
 <!-- Done by Jungwon Eom -->
-<?php
-     include_once 'dbh.inc.php';
-?>
+<?php include_once 'dbh.inc.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <title>Prism</title>
-     <link rel="stylesheet" href="/css/bootstrap.css">
-</head>
-<body>
-
-<?php
-     include_once 'nav.php';
-?>
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+<?php include('components/container.inc.php'); ?>
 
 <?php
 

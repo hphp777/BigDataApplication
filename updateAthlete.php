@@ -1,19 +1,12 @@
 <!-- Done by Hangbok Chung -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <title>Prism</title>
-     <link rel="stylesheet" href="/css/bootstrap.css">
-</head>
-<body>
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+<?php include('components/container.inc.php'); ?>
 
-<?php
-     include_once 'nav.php';
-?>
 <?php
     
     $id = $_GET['id'];
-    echo $id;
+    echo 'Id Number:  '. $id;
 ?>
 <form action="updateAthletes.inc.php" method= "GET" >
 <div class="form-group p-2">

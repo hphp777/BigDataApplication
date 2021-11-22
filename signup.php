@@ -1,16 +1,11 @@
 <!-- Done by Hangbok Chung -->
 
-<?php
-         include_once 'nav.php';
-?>    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <title>Prism</title>
-     <link rel="stylesheet" href="/css/bootstrap.css">
-</head>
+<?php include_once 'dbh.inc.php'; ?>
 
-<body>
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+<?php include('components/container.inc.php'); ?>    
+
     <main>
         <div class="wrapper-main">
             <section class="section-default">

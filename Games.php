@@ -2,9 +2,9 @@
 <?php
     include_once 'dbh.inc.php';
 ?>
-<?php
-    include_once 'nav.php';
-?>
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+
 <?php
 	//insert data
 	$btnPressed = filter_input(INPUT_POST, "btnSave");
@@ -38,6 +38,7 @@
 		mysqli_stmt_execute($stmt);
 		mysqli_stmt_bind_result($stmt, $name, $year, $season, $city);
 		mysqli_stmt_fetch($stmt);
+		mysqli_stmt_close($stmt);
 	}
 	
 	//update data - change new data
@@ -50,7 +51,7 @@
 		$season = filter_input(INPUT_POST, "season");
 		$city = filter_input(INPUT_POST, "city");
 		
-		$conn = mysqli_connect("localhost", "root", "", "prismproject") or die(mysqli_error());
+		$conn = mysqli_connect("localhost", "root", "", "team15") or die(mysqli_error());
 		$query = "UPDATE games SET name=?, year=?, Season_id=?, city=? WHERE id=?";
 		mysqli_autocommit($conn, FALSE);
 		
@@ -67,7 +68,7 @@
 	//deleteGames
 	if(isset($id) && isset($cmd) && $cmd == "del")
 	{
-		$conn = mysqli_connect("localhost", "root", "", "prismproject") or die(mysqli_error());
+		$conn = mysqli_connect("localhost", "root", "", "team15") or die(mysqli_error());
 		$query = "DELETE FROM games WHERE id = ?";
 		mysqli_autocommit($conn, FALSE);
 		
@@ -98,7 +99,6 @@ if(isset($id) && isset($cmd) && $cmd == "upd")
 	//update data
 	if($cmd == "upd")
 	{
-		$conn = mysqli_connect("localhost", "root", "", "prismproject") or die(mysqli_error());
 		?>
 		<fieldset>
 		<legend>Update</legend>

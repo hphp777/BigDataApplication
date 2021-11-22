@@ -2,9 +2,9 @@
 <?php
     include_once 'dbh.inc.php';
 ?>
-<?php
-    include_once 'nav.php';
-?>
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+
 <?php
 	//insert data
 	$btnPressed = filter_input(INPUT_POST, "btnSave");
@@ -35,6 +35,7 @@
 		mysqli_stmt_execute($stmt);
 		mysqli_stmt_bind_result($stmt, $name);
 		mysqli_stmt_fetch($stmt);
+		mysqli_stmt_close($stmt);
 	}
 
 	//update data - change new data
@@ -44,7 +45,6 @@
 		$id = filter_input(INPUT_POST, "id");
 		$name = filter_input(INPUT_POST, "name");
 				
-		$conn = mysqli_connect("localhost", "root", "", "prismproject") or die(mysqli_error());
 		$query = "UPDATE sports SET name=? WHERE id=?";
 		mysqli_autocommit($conn, FALSE);
 		
@@ -61,7 +61,7 @@
 	//deleteSports
 	if(isset($id) && isset($cmd) && $cmd == "del")
 	{
-		$conn = mysqli_connect("localhost", "root", "", "prismproject") or die(mysqli_error());
+		$conn = mysqli_connect("localhost", "root", "", "team15") or die(mysqli_error());
 		$query = "DELETE FROM sports WHERE id = ?";
 		mysqli_autocommit($conn, FALSE);
 		
@@ -92,7 +92,6 @@ if(isset($id) && isset($cmd) && $cmd == "upd")
 	//update data
 	if($cmd == "upd")
 	{
-		$conn = mysqli_connect("localhost", "root", "", "prismproject") or die(mysqli_error());
 		?>
 		<fieldset>
 		<legend>Update</legend>
@@ -125,7 +124,7 @@ else
 
 <!-- 데이터베이스에 가서 데이터를 찾아서 보여주기 -->
 <?php
-     $sql = "SELECT * FROM sports";
+     $sql = "SELECT * FROM  `sports`;";
      $result = mysqli_query($conn, $sql);
      $resultCheck = mysqli_num_rows($result);
 
@@ -146,7 +145,7 @@ else
                echo "<tr border = \"1\">" . 
                "<td>" . $row['id'] . "</td>" . 
                "<td>" . $row['name'] . "</td>". 
-			"<td><input type='button' value='Update' onclick='updateSports(".$row['id'].")'/>
+			   "<td><input type='button' value='Update' onclick='updateSports(".$row['id'].")'/>
 			   <input type='button' value='Delete' onclick='deleteSports(".$row['id'].")'/>
 			   </td>". 
                "</tr>";
@@ -167,3 +166,4 @@ else
 <script type="text/javascript" src="functionsports.js"></script>
 </body>
 </html>
+

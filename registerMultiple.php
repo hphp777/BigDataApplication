@@ -1,17 +1,9 @@
 <!-- Done by Hangbok Chung -->
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <title>Prism</title>
-     <link rel="stylesheet" href="/css/bootstrap.css">
-</head>
-<body>
-
-<?php
-     include_once 'nav.php';
-?>
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+<?php include('components/container.inc.php'); ?>
 
 <form action="addAthletes.inc.php" method= "GET" >
 
@@ -56,7 +48,7 @@
 <input type = "text" id = "name" name = "name2" placeholder = "name">
 </div>
 <br>
-<div class="form-group p-2">
+<div class="form-group p-2" style="color: #212529">
 <label for="sex">Sex</label>
 <select name="sex2" id = "sex">
       <option value="F">Female</option>
@@ -64,22 +56,22 @@
     </select>
 </div>
 <br>
-<div class="form-group p-2">
+<div class="form-group p-2" style="color: #212529">
 <label for="Age">Age</label>
 <input type = "text" name = "age2" id = "Age" placeholder = "Age">
 </div>
 <br>
-<div class="form-group p-2">
+<div class="form-group p-2" style="color: #212529">
 <label for="Height">Height</label>
 <input type = "text" name = "height2" id = "height" placeholder = "Height">
 </div>
 <br>
-<div class="form-group p-2">
+<div class="form-group p-2" style="color: #212529">
 <label for="weight">Weight</label>
 <input type = "text" name = "weight2" id = "Weight" placeholder = "Weight">
 </div>
 <br>
-<div class="form-group p-2">
+<div class="form-group p-2" style="color: #212529">
 <label for="team">Team</label>
 <input type = "text" name = "team2" id = "team" placeholder = "team">
 </div>

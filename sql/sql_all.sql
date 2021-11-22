@@ -1,45 +1,587 @@
---Done by Suhaeni Cici
+/* database
+user id : team15
+password: team15
+dbname : team15
+*/
 
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 14, 2021 at 09:02 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- create tables
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+-- Create original table : Done by Haengbok Chung
+CREATE TABLE original (
+ID VARCHAR(4),
+Name VARCHAR(59),
+Sex VARCHAR(3),
+Age VARCHAR(3),
+Height VARCHAR(6),
+Weight VARCHAR(6),
+Team VARCHAR(32),
+NOC VARCHAR(3),
+Games VARCHAR(11),
+Year VARCHAR(4),
+Season VARCHAR(6),
+City VARCHAR(22),
+Sport VARCHAR(21),
+Event VARCHAR(69),
+Medal VARCHAR(6)   
+);
+
+-- Create Athletes table : Done by Haengbok Chung 
+CREATE TABLE Athletes (
+id INTEGER(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+name VARCHAR(30) NOT NULL,
+sex VARCHAR(30) NOT NULL,
+age INTEGER(3) NOT NULL,
+height INTEGER(3) NOT NULL,
+weight INTEGER(3) NOT NULL,
+team VARCHAR(30) NOT NULL,
+NOC CHAR(3)
+);
+--add foreign key <<<<<<<<<<<<<<<<<<<<<<< error!!!!!!!!!!!!!!!!!!!!!
+ALTER TABLE athletes ADD FOREIGN KEY(NOC) REFERENCES region(NOC) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Create Medals table : Done by Haengbok Chung 
+CREATE TABLE Medals (
+    id INTEGER(6) PRIMARY KEY NOT NULL,
+    name VARCHAR(30) NOT NULL
+    );
+
+-- Create users table : Done by Haengbok Chung 
+CREATE TABLE users (
+    idUsers INTEGER(6) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    uidUsers TINYTEXT NOT NULL,
+    emailUsers TINYTEXT NOT NULL,
+    pwdUsers LONGTEXT NOT NULL
+    );
+
+-- Create Registration table : Done by Haengbok Chung 
+CREATE TABLE Registration (
+    id INTEGER(6) PRIMARY KEY NOT NULL,
+    event_id INTEGER(6) NOT NULL,
+    user_id INTEGER(6) NOT NULL,
+    team_id INTEGER(6) NOT NULL,
+    date DateTime NOT NULL
+    );
+
+-- Create Region table : Done by Jeongwon Eom
+CREATE TABLE Region(
+	NOC CHAR(3) NOT NULL,
+	Region VARCHAR(60) NOT NULL,
+	Notes VARCHAR(30),
+	PRIMARY KEY(NOC)
+	#(add later)FOREIGN KEY(ID) REFERENCES User(ID) ON DELETE NO ACTION 
+);
+
+-- Create Countries table : Done by Jeongwon Eom
+CREATE TABLE Countries(
+	#ID INT NOT NULL,
+	Name VARCHAR(60) NOT NULL,
+	SortName CHAR(3) NOT NULL,
+	PRIMARY KEY(SortName)
+);
+
+-- Create Cities table : Done by Jeongwon Eom
+CREATE TABLE Cities(
+	Name VARCHAR(60) NOT NULL,
+	Countries_ID CHAR(3) NOT NULL,
+	PRIMARY KEY(Name),
+	FOREIGN KEY(Countries_ID) REFERENCES Countries(SortName) ON DELETE NO ACTION 
+);
+
+-- Create memo table : Done by Jeongwon Eom
+create table memo(
+    idx int(11) not null auto_increment primary key,
+    subject varchar(200) not null,
+    memo text not null,
+    regdate date not null,
+    uidUsers tinytext
+
+);
+
+-- Create GoldMedals_NOC view : Done by Jeongwon Eom
+/* 금메달을 가장 많이 획득한 >>나라<< 랭킹*/
+create view GoldMedals_NOC(NOC, Gold)
+as select NOC, count(*) from original
+where Medal in (select Medal from original where Medal like 'Gold%')
+group by NOC;
+/* GoldMedals 뷰에서 rank 함수 이용 : $sql에 넣은 내용 */
+select NOC, Gold, rank() over (order by Gold desc) as Rank
+from GoldMedals_NOC;
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+-- Create GoldMedals_Athlete view : Done by Jeongwon Eom
+/* 금메달을 가장 많이 획득한 >>선수<< 랭킹*/
+create view GoldMedals_Athelete(Athelete, NOC, Gold)
+as select Name, NOC, count(*) from original
+where Medal in (select Medal from original where Medal like 'Gold%')
+group by Name;
+/* GoldMedals 뷰에서 rank 함수 이용: $sql에 넣은 내용 */
+select Athelete, NOC, Gold, rank() over (order by Gold desc) as Rank
+from GoldMedals_Athelete;
 
---
--- Database: `prismproject`
---
 
--- --------------------------------------------------------
-
---
--- Table structure for table `events`
---
-
+-- Create events table : Done by Cici Suhaeni
 CREATE TABLE `events` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `games_id` int(11) NOT NULL,
   `sport_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- Indexes for table `events`
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`);
+-- AUTO_INCREMENT for table `events`
+ALTER TABLE `events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1478;
+COMMIT;
 
---
--- Dumping data for table `events`
---
 
+-- Create Sports table : Done by Cici Suhaeni
+CREATE TABLE `sports` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- Indexes for table `sports`
+ALTER TABLE `sports`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`);
+-- AUTO_INCREMENT for table `sports`
+ALTER TABLE `sports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+COMMIT;
+
+-- Create games table : Done by Cici Suhaeni
+CREATE TABLE `games` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `year` int(4) NOT NULL,
+  `Season_id` int(11) NOT NULL,
+  `city` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+-- Create Season table : Done by Zu Hyun Lee
+CREATE TABLE Season (
+    id INTEGER(6) PRIMARY KEY NOT NULL,
+    name VARCHAR(30) NOT NULL
+    );
+
+-- Create Result table : Done by Zu Hyun Lee
+ CREATE TABLE Result (
+    id INTEGER(6) PRIMARY KEY NOT NULL,
+    event_id INTEGER(6) NOT NULL,
+    user_id INTEGER(6) NOT NULL,
+    team_id INTEGER(6) NOT NULL,
+    medals_id INTEGER(1) NOT NULL
+    );
+
+
+
+-- insert data
+
+--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+--Insert Data into original table : Done by Haengbok Chung !!!!!!!!!!!!!!!!!!!!!!!!!!!
+LOAD DATA LOCAL INFILE "C:\xampp\htdocs\BigDataApplication\final_desgin added\sql\original.csv" INTO TABLE original FIELDS TERMINATED BY ",";
+
+-- Insert Data into Athletes table : Done by Haengbok Chung
+INSERT INTO Athletes(name,sex,age,height,weight,team)
+SELECT Name,Sex,Age,Height,Weight,Team
+FROM original
+GROUP BY Name;
+
+-- Insert Data into Region table : Done by Jeongwon Eom
+INSERT INTO Region VALUES (	 'AFG'	,	 'Afghanistan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'AHO'	,	 'Curacao'	,	 'Netherlands Antilles'	); 
+INSERT INTO Region VALUES (	 'ALB'	,	 'Albania'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ALG'	,	 'Algeria'	,	NULL	); 
+INSERT INTO Region VALUES (	 'AND'	,	 'Andorra'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ANG'	,	 'Angola'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ANT'	,	 'Antigua'	,	 'Antigua and Barbuda'	); 
+INSERT INTO Region VALUES (	 'ANZ'	,	 'Australia'	,	 'Australasia'	); 
+INSERT INTO Region VALUES (	 'ARG'	,	 'Argentina'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ARM'	,	 'Armenia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ARU'	,	 'Aruba'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ASA'	,	 'American Samoa'	,	NULL	); 
+INSERT INTO Region VALUES (	 'AUS'	,	 'Australia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'AUT'	,	 'Austria'	,	NULL	); 
+INSERT INTO Region VALUES (	 'AZE'	,	 'Azerbaijan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BAH'	,	 'Bahamas'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BAN'	,	 'Bangladesh'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BAR'	,	 'Barbados'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BDI'	,	 'Burundi'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BEL'	,	 'Belgium'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BEN'	,	 'Benin'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BER'	,	 'Bermuda'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BHU'	,	 'Bhutan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BIH'	,	 'Bosnia and Herzegovina'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BIZ'	,	 'Belize'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BLR'	,	 'Belarus'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BOH'	,	 'Czech Republic'	,	 'Bohemia'	); 
+INSERT INTO Region VALUES (	 'BOL'	,	 'Boliva'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BOT'	,	 'Botswana'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BRA'	,	 'Brazil'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BRN'	,	 'Bahrain'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BRU'	,	 'Brunei'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BUL'	,	 'Bulgaria'	,	NULL	); 
+INSERT INTO Region VALUES (	 'BUR'	,	 'Burkina Faso'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CAF'	,	 'Central African Republic'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CAM'	,	 'Cambodia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CAN'	,	 'Canada'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CAY'	,	 'Cayman Islands'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CGO'	,	 'Republic of Congo'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CHA'	,	 'Chad'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CHI'	,	 'Chile'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CHN'	,	 'China'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CIV'	,	 'Ivory Coast'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CMR'	,	 'Cameroon'	,	NULL	); 
+INSERT INTO Region VALUES (	 'COD'	,	 'Democratic Republic of the Congo'	,	NULL	); 
+INSERT INTO Region VALUES (	 'COK'	,	 'Cook Islands'	,	NULL	); 
+INSERT INTO Region VALUES (	 'COL'	,	 'Colombia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'COM'	,	 'Comoros'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CPV'	,	 'Cape Verde'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CRC'	,	 'Costa Rica'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CRO'	,	 'Croatia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CRT'	,	 'Greece'	,	 'Crete'	); 
+INSERT INTO Region VALUES (	 'CUB'	,	 'Cuba'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CYP'	,	 'Cyprus'	,	NULL	); 
+INSERT INTO Region VALUES (	 'CZE'	,	 'Czech Republic'	,	NULL	); 
+INSERT INTO Region VALUES (	 'DEN'	,	 'Denmark'	,	NULL	); 
+INSERT INTO Region VALUES (	 'DJI'	,	 'Djibouti'	,	NULL	); 
+INSERT INTO Region VALUES (	 'DMA'	,	 'Dominica'	,	NULL	); 
+INSERT INTO Region VALUES (	 'DOM'	,	 'Dominican Republic'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ECU'	,	 'Ecuador'	,	NULL	); 
+INSERT INTO Region VALUES (	 'EGY'	,	 'Egypt'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ERI'	,	 'Eritrea'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ESA'	,	 'El Salvador'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ESP'	,	 'Spain'	,	NULL	); 
+INSERT INTO Region VALUES (	 'EST'	,	 'Estonia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ETH'	,	 'Ethiopia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'EUN'	,	 'Russia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'FIJ'	,	 'Fiji'	,	NULL	); 
+INSERT INTO Region VALUES (	 'FIN'	,	 'Finland'	,	NULL	); 
+INSERT INTO Region VALUES (	 'FRA'	,	 'France'	,	NULL	); 
+INSERT INTO Region VALUES (	 'FRG'	,	 'Germany'	,	NULL	); 
+INSERT INTO Region VALUES (	 'FSM'	,	 'Micronesia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GAB'	,	 'Gabon'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GAM'	,	 'Gambia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GBR'	,	 'UK'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GBS'	,	 'Guinea-Bissau'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GDR'	,	 'Germany'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GEO'	,	 'Georgia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GEQ'	,	 'Equatorial Guinea'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GER'	,	 'Germany'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GHA'	,	 'Ghana'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GRE'	,	 'Greece'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GRN'	,	 'Grenada'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GUA'	,	 'Guatemala'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GUI'	,	 'Guinea'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GUM'	,	 'Guam'	,	NULL	); 
+INSERT INTO Region VALUES (	 'GUY'	,	 'Guyana'	,	NULL	); 
+INSERT INTO Region VALUES (	 'HAI'	,	 'Haiti'	,	NULL	); 
+INSERT INTO Region VALUES (	 'HKG'	,	 'China'	,	 'Hong Kong'	); 
+INSERT INTO Region VALUES (	 'HON'	,	 'Honduras'	,	NULL	); 
+INSERT INTO Region VALUES (	 'HUN'	,	 'Hungary'	,	NULL	); 
+INSERT INTO Region VALUES (	 'INA'	,	 'Indonesia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'IND'	,	 'India'	,	NULL	); 
+INSERT INTO Region VALUES (	 'IOA'	,	 'Individual Olympic Athletes'	,	NULL	); 
+INSERT INTO Region VALUES (	 'IRI'	,	 'Iran'	,	NULL	); 
+INSERT INTO Region VALUES (	 'IRL'	,	 'Ireland'	,	NULL	); 
+INSERT INTO Region VALUES (	 'IRQ'	,	 'Iraq'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ISL'	,	 'Iceland'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ISR'	,	 'Israel'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ISV'	,	 'Virgin Islands, US'	,	 'Virgin Islands'	); 
+INSERT INTO Region VALUES (	 'ITA'	,	 'Italy'	,	NULL	); 
+INSERT INTO Region VALUES (	 'IVB'	,	 'Virgin Islands, British'	,	NULL	); 
+INSERT INTO Region VALUES (	 'JAM'	,	 'Jamaica'	,	NULL	); 
+INSERT INTO Region VALUES (	 'JOR'	,	 'Jordan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'JPN'	,	 'Japan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KAZ'	,	 'Kazakhstan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KEN'	,	 'Kenya'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KGZ'	,	 'Kyrgyzstan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KIR'	,	 'Kiribati'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KOR'	,	 'South Korea'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KOS'	,	 'Kosovo'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KSA'	,	 'Saudi Arabia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'KUW'	,	 'Kuwait'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LAO'	,	 'Laos'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LAT'	,	 'Latvia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LBA'	,	 'Libya'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LBR'	,	 'Liberia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LCA'	,	 'Saint Lucia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LES'	,	 'Lesotho'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LIB'	,	 'Lebanon'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LIE'	,	 'Liechtenstein'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LTU'	,	 'Lithuania'	,	NULL	); 
+INSERT INTO Region VALUES (	 'LUX'	,	 'Luxembourg'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MAD'	,	 'Madagascar'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MAL'	,	 'Malaysia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MAR'	,	 'Morocco'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MAS'	,	 'Malaysia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MAW'	,	 'Malawi'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MDA'	,	 'Moldova'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MDV'	,	 'Maldives'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MEX'	,	 'Mexico'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MGL'	,	 'Mongolia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MHL'	,	 'Marshall Islands'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MKD'	,	 'Macedonia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MLI'	,	 'Mali'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MLT'	,	 'Malta'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MNE'	,	 'Montenegro'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MON'	,	 'Monaco'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MOZ'	,	 'Mozambique'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MRI'	,	 'Mauritius'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MTN'	,	 'Mauritania'	,	NULL	); 
+INSERT INTO Region VALUES (	 'MYA'	,	 'Myanmar'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NAM'	,	 'Namibia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NBO'	,	 'Malaysia'	,	 'North Borneo'	); 
+INSERT INTO Region VALUES (	 'NCA'	,	 'Nicaragua'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NED'	,	 'Netherlands'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NEP'	,	 'Nepal'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NFL'	,	 'Canada'	,	 'Newfoundland'	); 
+INSERT INTO Region VALUES (	 'NGR'	,	 'Nigeria'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NIG'	,	 'Niger'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NOR'	,	 'Norway'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NRU'	,	 'Nauru'	,	NULL	); 
+INSERT INTO Region VALUES (	 'NZL'	,	 'New Zealand'	,	NULL	); 
+INSERT INTO Region VALUES (	 'OMA'	,	 'Oman'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PAK'	,	 'Pakistan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PAN'	,	 'Panama'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PAR'	,	 'Paraguay'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PER'	,	 'Peru'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PHI'	,	 'Philippines'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PLE'	,	 'Palestine'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PLW'	,	 'Palau'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PNG'	,	 'Papua New Guinea'	,	NULL	); 
+INSERT INTO Region VALUES (	 'POL'	,	 'Poland'	,	NULL	); 
+INSERT INTO Region VALUES (	 'POR'	,	 'Portugal'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PRK'	,	 'North Korea'	,	NULL	); 
+INSERT INTO Region VALUES (	 'PUR'	,	 'Puerto Rico'	,	NULL	); 
+INSERT INTO Region VALUES (	 'QAT'	,	 'Qatar'	,	NULL	); 
+INSERT INTO Region VALUES (	 'RHO'	,	 'Zimbabwe'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ROT'	,	 'NA'	,	 'Refugee Olympic Team'	); 
+INSERT INTO Region VALUES (	 'ROU'	,	 'Romania'	,	NULL	); 
+INSERT INTO Region VALUES (	 'RSA'	,	 'South Africa'	,	NULL	); 
+INSERT INTO Region VALUES (	 'RUS'	,	 'Russia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'RWA'	,	 'Rwanda'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SAA'	,	 'Germany'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SAM'	,	 'Samoa'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SCG'	,	 'Serbia'	,	 'Serbia and Montenegro'	); 
+INSERT INTO Region VALUES (	 'SEN'	,	 'Senegal'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SEY'	,	 'Seychelles'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SIN'	,	 'Singapore'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SKN'	,	 'Saint Kitts'	,	 'Turks and Caicos Islands'	); 
+INSERT INTO Region VALUES (	 'SLE'	,	 'Sierra Leone'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SLO'	,	 'Slovenia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SMR'	,	 'San Marino'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SOL'	,	 'Solomon Islands'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SOM'	,	 'Somalia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SRB'	,	 'Serbia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SRI'	,	 'Sri Lanka'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SSD'	,	 'South Sudan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'STP'	,	 'Sao Tome and Principe'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SUD'	,	 'Sudan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SUI'	,	 'Switzerland'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SUR'	,	 'Suriname'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SVK'	,	 'Slovakia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SWE'	,	 'Sweden'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SWZ'	,	 'Swaziland'	,	NULL	); 
+INSERT INTO Region VALUES (	 'SYR'	,	 'Syria'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TAN'	,	 'Tanzania'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TCH'	,	 'Czech Republic'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TGA'	,	 'Tonga'	,	NULL	); 
+INSERT INTO Region VALUES (	 'THA'	,	 'Thailand'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TJK'	,	 'Tajikistan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TKM'	,	 'Turkmenistan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TLS'	,	 'Timor-Leste'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TOG'	,	 'Togo'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TPE'	,	 'Taiwan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TTO'	,	 'Trinidad'	,	 'Trinidad and Tobago'	); 
+INSERT INTO Region VALUES (	 'TUN'	,	 'Tunisia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TUR'	,	 'Turkey'	,	NULL	); 
+INSERT INTO Region VALUES (	 'TUV'	,	 'NA'	,	 'Tuvalu'	); 
+INSERT INTO Region VALUES (	 'UAE'	,	 'United Arab Emirates'	,	NULL	); 
+INSERT INTO Region VALUES (	 'UAR'	,	 'Syria'	,	 'United Arab Republic'	); 
+INSERT INTO Region VALUES (	 'UGA'	,	 'Uganda'	,	NULL	); 
+INSERT INTO Region VALUES (	 'UKR'	,	 'Ukraine'	,	NULL	); 
+INSERT INTO Region VALUES (	 'UNK'	,	 'NA'	,	 'Unknown'	); 
+INSERT INTO Region VALUES (	 'URS'	,	 'Russia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'URU'	,	 'Uruguay'	,	NULL	); 
+INSERT INTO Region VALUES (	 'USA'	,	 'USA'	,	NULL	); 
+INSERT INTO Region VALUES (	 'UZB'	,	 'Uzbekistan'	,	NULL	); 
+INSERT INTO Region VALUES (	 'VAN'	,	 'Vanuatu'	,	NULL	); 
+INSERT INTO Region VALUES (	 'VEN'	,	 'Venezuela'	,	NULL	); 
+INSERT INTO Region VALUES (	 'VIE'	,	 'Vietnam'	,	NULL	); 
+INSERT INTO Region VALUES (	 'VIN'	,	 'Saint Vincent'	,	NULL	); 
+INSERT INTO Region VALUES (	 'VNM'	,	 'Vietnam'	,	NULL	); 
+INSERT INTO Region VALUES (	 'WIF'	,	 'Trinidad'	,	 'West Indies Federation'	); 
+INSERT INTO Region VALUES (	 'YAR'	,	 'Yemen'	,	 'North Yemen'	); 
+INSERT INTO Region VALUES (	 'YEM'	,	 'Yemen'	,	NULL	); 
+INSERT INTO Region VALUES (	 'YMD'	,	 'Yemen'	,	 'South Yemen'	); 
+INSERT INTO Region VALUES (	 'YUG'	,	 'Serbia'	,	 'Yugoslavia'	); 
+INSERT INTO Region VALUES (	 'ZAM'	,	 'Zambia'	,	NULL	); 
+INSERT INTO Region VALUES (	 'ZIM'	,	 'Zimbabwe'	,	NULL	);
+
+-- Insert Data into Countries table : Done by Jeongwon Eom
+INSERT INTO Countries 
+SELECT Region, NOC
+FROM Region;
+
+
+-- Insert Data into Cities table : Done by Jeongwon Eom
+INSERT INTO Cities VALUES ('Barcelona'	 ,'ESP');
+INSERT INTO Cities VALUES ('London'	 ,'GBR');
+INSERT INTO Cities VALUES ('Antwerpen'	 ,'BEL');
+INSERT INTO Cities VALUES ('Paris'	 ,'FRA');
+INSERT INTO Cities VALUES ('Calgary'	 ,'CAN');
+INSERT INTO Cities VALUES ('Albertville'	 ,'USA');
+INSERT INTO Cities VALUES ('Lillehammer'	 ,'NOR');
+INSERT INTO Cities VALUES ('Los Angeles'	 ,'USA');
+INSERT INTO Cities VALUES ('Salt Lake City'	 ,'USA');
+INSERT INTO Cities VALUES ('Helsinki'	 ,'FIN');
+INSERT INTO Cities VALUES ('Lake Placid'	 ,'USA');
+INSERT INTO Cities VALUES ('Sydney'	 ,'AUS');
+INSERT INTO Cities VALUES ('Atlanta'	 ,'USA');
+INSERT INTO Cities VALUES ('Stockholm'	 ,'SWE');
+INSERT INTO Cities VALUES ('Sochi'	 ,'RUS');
+INSERT INTO Cities VALUES ('Nagano'	 ,'JPN');
+INSERT INTO Cities VALUES ('Torino'	 ,'ITA');
+INSERT INTO Cities VALUES ('Beijing'	 ,'CHN');
+INSERT INTO Cities VALUES ('Rio de Janeiro'	 ,'BRA');
+INSERT INTO Cities VALUES ('Athina'	 ,'GRE');
+INSERT INTO Cities VALUES ('Squaw Valley'	 ,'USA');
+INSERT INTO Cities VALUES ('Innsbruck'	 ,'AUT');
+INSERT INTO Cities VALUES ('Sarajevo'	 ,'BIH');
+INSERT INTO Cities VALUES ('Mexico City'	 ,'MEX');
+INSERT INTO Cities VALUES ('Munich'	 ,'GDR');
+INSERT INTO Cities VALUES ('Seoul'	 ,'KOR');
+INSERT INTO Cities VALUES ('Berlin'	 ,'GDR');
+INSERT INTO Cities VALUES ('Oslo'	 ,'NOR');
+INSERT INTO Cities VALUES ("Cortina d'Ampezzo"	 ,'ITA');
+INSERT INTO Cities VALUES ('Melbourne'	 ,'AUS');
+INSERT INTO Cities VALUES ('Roma'	 ,'ITA');
+INSERT INTO Cities VALUES ('Amsterdam'	 ,'NED');
+INSERT INTO Cities VALUES ('Montreal'	 ,'CAN');
+INSERT INTO Cities VALUES ('Moskva'	 ,'RUS');
+INSERT INTO Cities VALUES ('Tokyo'	 ,'JPN');
+INSERT INTO Cities VALUES ('Vancouver'	 ,'CAN');
+INSERT INTO Cities VALUES ('Grenoble'	 ,'FRA');
+INSERT INTO Cities VALUES ('Sapporo'	 ,'JPN');
+INSERT INTO Cities VALUES ('Chamonix'	 ,'FRA');
+INSERT INTO Cities VALUES ('St. Louis'	 ,'USA');
+INSERT INTO Cities VALUES ('Sankt Moritz'	 ,'SWZ');
+INSERT INTO Cities VALUES ('Garmisch-Partenkirchen'	 ,'GDR');
+
+
+-- Insert Data into games table : Done by Cici Suhaeni
+INSERT INTO `games` (`id`, `name`, `year`, `Season_id`, `city`) VALUES
+(1, '1900 Summer', 1900, 0, 'Paris'),
+(2, '1904 Summer', 1904, 0, 'St. Louis'),
+(3, '1906 Summer', 1906, 0, 'Athina'),
+(4, '1908 Summer', 1908, 0, 'London'),
+(5, '1912 Summer', 1912, 0, 'Stockholm'),
+(6, '1920 Summer', 1920, 0, 'Antwerpen'),
+(7, '1924 Summer', 1924, 0, 'Paris'),
+(8, '1924 Winter', 1924, 1, 'Chamonix'),
+(9, '1928 Summer', 1928, 0, 'Amsterdam'),
+(10, '1928 Winter', 1928, 1, 'Sankt Moritz'),
+(11, '1932 Summer', 1932, 0, 'Los Angeles'),
+(12, '1932 Winter', 1932, 1, 'Lake Placid'),
+(13, '1936 Summer', 1936, 0, 'Berlin'),
+(14, '1936 Winter', 1936, 1, 'Garmisch-Partenkirchen'),
+(15, '1948 Summer', 1948, 0, 'London'),
+(16, '1948 Winter', 1948, 1, 'Sankt Moritz'),
+(17, '1952 Summer', 1952, 0, 'Helsinki'),
+(18, '1952 Winter', 1952, 1, 'Oslo'),
+(19, '1956 Summer', 1956, 0, 'Melbourne'),
+(20, '1956 Winter', 1956, 1, "Cortina d'Ampezzo"),
+(21, '1960 Summer', 1960, 0, 'Roma'),
+(22, '1960 Winter', 1960, 1, 'Squaw Valley'),
+(23, '1964 Summer', 1964, 0, 'Tokyo'),
+(24, '1964 Winter', 1964, 1, 'Innsbruck'),
+(25, '1968 Summer', 1968, 0, 'Mexico City'),
+(26, '1968 Winter', 1968, 1, 'Grenoble'),
+(27, '1972 Summer', 1972, 0, 'Munich'),
+(28, '1972 Winter', 1972, 1, 'Sapporo'),
+(29, '1976 Summer', 1976, 0, 'Montreal'),
+(30, '1976 Winter', 1976, 1, 'Innsbruck'),
+(31, '1980 Summer', 1980, 0, 'Moskva'),
+(32, '1980 Winter', 1980, 1, 'Lake Placid'),
+(33, '1984 Summer', 1984, 0, 'Los Angeles'),
+(34, '1984 Winter', 1984, 1, 'Sarajevo'),
+(35, '1988 Summer', 1988, 0, 'Seoul'),
+(36, '1988 Winter', 1988, 1, 'Calgary'),
+(37, '1992 Summer', 1992, 0, 'Barcelona'),
+(38, '1992 Winter', 1992, 1, 'Albertville'),
+(39, '1994 Winter', 1994, 1, 'Lillehammer'),
+(40, '1996 Summer', 1996, 0, 'Atlanta'),
+(41, '1998 Winter', 1998, 1, 'Nagano'),
+(42, '2000 Summer', 2000, 0, 'Sydney'),
+(43, '2002 Winter', 2002, 1, 'Salt Lake City'),
+(44, '2004 Summer', 2004, 0, 'Athina'),
+(45, '2006 Winter', 2006, 1, 'Torino'),
+(46, '2008 Summer', 2008, 0, 'Beijing'),
+(47, '2010 Winter', 2010, 1, 'Vancouver'),
+(48, '2012 Summer', 2012, 0, 'London'),
+(49, '2014 Winter', 2014, 1, 'Sochi'),
+(50, '2016 Summer', 2016, 0, 'Rio de Janeiro');
+
+
+-- Insert Data into Sports table : Done by Cici Suhaeni
+INSERT INTO sports (id, name) VALUES
+(1, 'Alpine Skiing'),
+(2, 'Archery'),
+(3, 'Art Competitions'),
+(4, 'Athletics'),
+(5, 'Badminton'),
+(6, 'Baseball'),
+(7, 'Basketball'),
+(8, 'Beach Volleyball'),
+(9, 'Biathlon'),
+(10, 'Bobsleigh'),
+(11, 'Boxing'),
+(12, 'Canoeing'),
+(13, 'Cross Country Skiing'),
+(14, 'Curling'),
+(15, 'Cycling'),
+(16, 'Diving'),
+(17, 'Equestrianism'),
+(18, 'Fencing'),
+(19, 'Figure Skating'),
+(20, 'Football'),
+(21, 'Freestyle Skiing'),
+(22, 'Golf'),
+(23, 'Gymnastics'),
+(24, 'Handball'),
+(25, 'Hockey'),
+(26, 'Ice Hockey'),
+(27, 'Judo'),
+(28, 'Luge'),
+(29, 'Modern Pentathlon'),
+(30, 'Nordic Combined'),
+(31, 'Rhythmic Gymnastics'),
+(32, 'Rowing'),
+(33, 'Rugby Sevens'),
+(34, 'Sailing'),
+(35, 'Shooting'),
+(36, 'Ski Jumping'),
+(37, 'Softball'),
+(38, 'Speed Skating'),
+(39, 'Swimming'),
+(40, 'Synchronized Swimming'),
+(41, 'Table Tennis'),
+(42, 'Taekwondo'),
+(43, 'Tennis'),
+(44, 'Trampolining'),
+(45, 'Triathlon'),
+(46, 'Tug-Of-War'),
+(47, 'Volleyball'),
+(48, 'Water Polo'),
+(49, 'Weightlifting'),
+(50, 'Wrestling');
+
+-- Insert Data into events table : Done by Cici Suhaeni
 INSERT INTO `events` (`id`, `name`, `games_id`, `sport_id`) VALUES
 (1, 'Alpine Skiing Mens Combined', 36, 1),
 (2, 'Alpine Skiing Mens Combined', 38, 1),
@@ -1520,28 +2062,15 @@ INSERT INTO `events` (`id`, `name`, `games_id`, `sport_id`) VALUES
 (1476, 'Wrestling Womens Light-Heavyweight, Freestyle', 50, 50),
 (1477, 'Wrestling Womens Lightweight, Freestyle', 50, 50);
 
---
--- Indexes for dumped tables
---
+-- Insert Data into Medals table : Done by Zu Hyun Lee
+INSERT INTO Medals(id,name)
+VALUES
+(0, 'Gold'),
+(1,'Silver'),
+(2,'Bronze');
 
---
--- Indexes for table `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `name` (`name`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1478;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Insert Data into Seasons table : Done by Zu Hyun Lee
+INSERT INTO Season(id,name)
+VALUES
+(0, 'Summer Olympics'),
+(1,'Winter Olympics');

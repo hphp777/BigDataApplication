@@ -3,17 +3,11 @@
      include_once 'dbh.inc.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <title>Prism</title>
-     <link rel="stylesheet" href="/css/bootstrap.css">
-</head>
-<body>
 
-<?php
-     include_once 'nav.php';
-?>
+
+<?php require('components/head.inc.php'); ?>
+<?php include('components/navbar.inc.php'); ?>
+<?php include('components/container.inc.php'); ?>
 
 <?php
      $sql = "SELECT * FROM athletes;";
@@ -22,12 +16,9 @@
 
      if($resultCheck > 0){
           echo "<div class \"\">";
-          echo " <a href=\"register.php\" class=\"btn btn-primary\">Register One Athlete</a>";
-          echo "</div>";
-
-          echo "<div class \"\">";
-          echo " <a href=\"registerMultiple.php\" class=\"btn btn-primary\">Register Multiple Athletes</a>";
-          echo "</div>";
+          echo "<a href=\"register.php\" class=\"btn btn-secondary\">Register One Athlete</a><p></p>";
+          echo "<a href=\"registerMultiple.php\" class=\"btn btn-secondary\">Register Multiple Athletes</a>";
+          echo "</div><br>";
           
           echo "<table class = \"table table-bordered\" border = \"1\" align = \"center\">";
 
@@ -38,7 +29,7 @@
           echo "<th scope=\"col\">age</th>";
           echo "<th scope=\"col\">height</th>";
           echo "<th scope=\"col\">weight</th>";
-          echo "<th scope=\"col\">team</th>";
+          echo "<th scope=\"col\">Country</th>";
           echo "<th scope=\"col\">delete</th>";
           echo "<th scope=\"col\">update</th>";
           echo "</thead>";
@@ -55,7 +46,7 @@
                $jb_delete = '
                 <form action="Athletes.php" method="POST">
                 <input type="hidden" name="delete_id" value="' . $row[ 'id' ] . '">
-                <input type="submit" value="Delete">
+                <input type="submit" value="Delete" class="btn btn-danger">
                 </form>
                 ';
                 $update = "<a href=updateAthlete.php?id=".$row['id']." class = \"btn btn-primary\">Update</a>";
@@ -77,7 +68,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script type="text/javascript" src="/js/bootstrap.js"></script>
-
+</div>
+</main>
 </body>
 </html>
 
